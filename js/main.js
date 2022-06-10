@@ -37,12 +37,7 @@ const CommentsCount = {
   MAX: 5
 };
 
-const commentsId = [];
-
-const CommentIdRange = {
-  MIN: 1,
-  MAX: 999
-};
+let commentId = 0;
 
 const MESSAGES = [
   'Всё отлично!',
@@ -67,15 +62,11 @@ const getRandomInt = (a, b) => {
 const getRandomArrayElement = (elements) => elements[getRandomInt(0, elements.length - 1)];
 
 const getCommentId = () => {
-  let id = getRandomInt(CommentIdRange.MIN, CommentIdRange.MAX);
-  if (commentsId.some((item) => item === id)) {
-    id = getRandomInt(CommentIdRange.MIN, CommentIdRange.MAX);
-  }
-  commentsId.push(id);
-  return id;
+  commentId += 1;
+  return commentId;
 };
 
-const createRandomMessageData = () => ({
+const createRandomCommentData = () => ({
   id: getCommentId(),
   avatar: `img/avatar-${getRandomInt(AvatarsRange.MIN, AvatarsRange.MAX)}.svg`,
   message: getRandomArrayElement(MESSAGES),
@@ -87,7 +78,7 @@ const createRandomPhotoData = () => Array.from({ length: PHOTO_COUNT }, (item, i
   url: `photos/${index + 1}.jpg`,
   description: getRandomArrayElement(DESCRIPTIONS),
   likes: getRandomInt(LikesCount.MIN, LikesCount.MAX),
-  comments: Array.from({ length: getRandomInt(CommentsCount.MIN, CommentsCount.MAX) }, createRandomMessageData)
+  comments: Array.from({ length: getRandomInt(CommentsCount.MIN, CommentsCount.MAX) }, createRandomCommentData)
 }));
 
 createRandomPhotoData();
