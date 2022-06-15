@@ -8,6 +8,4 @@ const getRandomArrayElement = (elements) => elements[getRandomInt(0, elements.le
 
 const checkStringLength = (text, maxLength) => text.length <= maxLength;
 
-export { getRandomInt };
-export { getRandomArrayElement };
-export { checkStringLength };
+export { getRandomInt, getRandomArrayElement, checkStringLength };
