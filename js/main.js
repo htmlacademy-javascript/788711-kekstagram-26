@@ -1,6 +1,4 @@
-import { createRandomPhotoData } from './data.js';
 import { checkStringLength } from './util.js';
-
-createRandomPhotoData();
+import './post-thumbnails.js';
 
 checkStringLength('Функция для проверки максимальной длины строки.', 47);
