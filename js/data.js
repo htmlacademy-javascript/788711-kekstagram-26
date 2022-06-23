@@ -60,19 +60,19 @@ const getCommentId = () => {
   return commentId;
 };
 
-const createRandomCommentData = () => ({
+const generateComments = () => ({
   id: getCommentId(),
   avatar: `img/avatar-${getRandomInt(AvatarsRange.MIN, AvatarsRange.MAX)}.svg`,
   message: getRandomArrayElement(MESSAGES),
   name: getRandomArrayElement(NAMES),
 });
 
-const createRandomPhotoData = () => Array.from({ length: PHOTO_COUNT }, (item, index) => ({
+const generatePosts = () => Array.from({ length: PHOTO_COUNT }, (item, index) => ({
   id: index + 1,
   url: `photos/${index + 1}.jpg`,
   description: getRandomArrayElement(DESCRIPTIONS),
   likes: getRandomInt(LikesCount.MIN, LikesCount.MAX),
-  comments: Array.from({ length: getRandomInt(CommentsCount.MIN, CommentsCount.MAX) }, createRandomCommentData)
+  comments: Array.from({ length: getRandomInt(CommentsCount.MIN, CommentsCount.MAX) }, generateComments)
 }));
 
-export { createRandomPhotoData };
+export { generatePosts };
