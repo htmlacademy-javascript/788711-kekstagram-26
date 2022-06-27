@@ -1,5 +1,14 @@
+const AVATAR_WIDTH = 35;
+const AVATAR_HEIGHT = 35;
+
 const postModalElement = document.querySelector('.big-picture');
 const commentsListElement = postModalElement.querySelector('.social__comments');
+
+// Убирает блоки счётчика комментариев и загрузки новых комментариев
+const commentCountElement = postModalElement.querySelector('.social__comment-count');
+commentCountElement.classList.add('hidden');
+const commentsLoaderElement = postModalElement.querySelector('.comments-loader');
+commentsLoaderElement.classList.add('hidden');
 
 const createCommentItem = ({ avatar, message, name }) => {
   const commentItem = document.createElement('li');
@@ -9,8 +18,8 @@ const createCommentItem = ({ avatar, message, name }) => {
   userPicture.classList.add('social__picture');
   userPicture.src = avatar;
   userPicture.alt = name;
-  userPicture.width = 35;
-  userPicture.height = 35;
+  userPicture.width = AVATAR_WIDTH;
+  userPicture.height = AVATAR_HEIGHT;
   commentItem.append(userPicture);
 
   const commentText = document.createElement('p');

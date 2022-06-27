@@ -1,5 +1,7 @@
-import { openPictureModal } from './post-modal.js';
+import { openModal } from './modal-window.js';
+import { renderPicture } from './post-fullsize-picture.js';
 
+const postModalElement = document.querySelector('.big-picture');
 const picturesContainerElement = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture')
   .content
@@ -15,7 +17,8 @@ const renderPostThumbnails = (posts) => {
     pictureElement.querySelector('.picture__likes').textContent = post.likes;
     pictureElement.addEventListener('click', (evt) => {
       evt.preventDefault();
-      openPictureModal(post);
+      openModal(postModalElement);
+      renderPicture(post);
     });
     picturesFragment.append(pictureElement);
   });
