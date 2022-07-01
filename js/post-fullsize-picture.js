@@ -1,7 +1,10 @@
+import { openModal, closeModal } from './modal-window.js';
+
 const AVATAR_WIDTH = 35;
 const AVATAR_HEIGHT = 35;
 
 const postModalElement = document.querySelector('.big-picture');
+const postModalCloseElement = postModalElement.querySelector('.big-picture__cancel');
 const commentsListElement = postModalElement.querySelector('.social__comments');
 
 // Убирает блоки счётчика комментариев и загрузки новых комментариев
@@ -49,6 +52,11 @@ const renderPicture = ({ url, description, comments, likes }) => {
   postModalElement.querySelector('.likes-count').textContent = likes;
   postModalElement.querySelector('.comments-count').textContent = comments.length;
   renderComments(comments);
+  openModal(postModalElement);
 };
+
+postModalCloseElement.addEventListener('click', () => {
+  closeModal();
+});
 
 export { renderPicture };
