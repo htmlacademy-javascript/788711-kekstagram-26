@@ -1,12 +1,16 @@
 import { isEscapeKey } from './util.js';
+import { resetForm } from './upload-form.js';
 
 const body = document.body;
-const postModalCloseElement = document.querySelector('.big-picture__cancel');
+const uploadOverlayElement = document.querySelector('.img-upload__overlay');
 
 let targetElement;
 
 const modalEscKeydownHandler = (evt) => {
   if (isEscapeKey(evt)) {
+    if (!uploadOverlayElement.classList.contains('hidden')) {
+      resetForm();
+    }
     evt.preventDefault();
     closeModal();
   }
@@ -25,8 +29,4 @@ function closeModal() {
   document.removeEventListener('keydown', modalEscKeydownHandler);
 }
 
-postModalCloseElement.addEventListener('click', () => {
-  closeModal();
-});
-
-export { openModal };
+export { openModal, closeModal };

@@ -661,6 +661,8 @@ main {
  */
 
 .text {
+  display: grid;
+  gap: 20px;
   margin: 0;
   padding: 0;
   margin-bottom: 30px;
@@ -669,11 +671,18 @@ main {
   border: none;
 }
 
+.text__field-wrapper--invalid .text__hashtags,
+.text__field-wrapper--invalid .text__description {
+  color: #ff5757;
+
+  border-color: #ff5757;
+  outline: none;
+}
+
 .text__hashtags {
   width: 450px;
 
   margin: 0 auto;
-  margin-bottom: 20px;
   padding: 5px 10px;
 
   font-family: "Open Sans", "Arial", sans-serif;
@@ -695,6 +704,17 @@ main {
   color: #000000;
 
   border-radius: 5px;
+}
+
+.text__error-message {
+  max-width: 450px;
+
+  margin: 0 auto;
+  margin-top: 5px;
+
+  line-height: 20px;
+  text-align: left;
+  text-transform: none;
 }
 
 
