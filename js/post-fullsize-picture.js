@@ -3,15 +3,17 @@ import { openModal, closeModal } from './modal-window.js';
 const AVATAR_WIDTH = 35;
 const AVATAR_HEIGHT = 35;
 
+const COMMENTS_SHOWN_COUNT = 5;
+
 const postModalElement = document.querySelector('.big-picture');
 const postModalCloseElement = postModalElement.querySelector('.big-picture__cancel');
+const commentsShownCountElement = postModalElement.querySelector('.comments-shown-count');
 const commentsListElement = postModalElement.querySelector('.social__comments');
-
-// Убирает блоки счётчика комментариев и загрузки новых комментариев
-const commentCountElement = postModalElement.querySelector('.social__comment-count');
-commentCountElement.classList.add('hidden');
 const commentsLoaderElement = postModalElement.querySelector('.comments-loader');
-commentsLoaderElement.classList.add('hidden');
+
+let commentsData = [];
+let commentsStartIndex = 0;
+let commentsShownCount = 0;
 
 const createCommentItem = ({ avatar, message, name }) => {
   const commentItem = document.createElement('li');
@@ -33,30 +35,48 @@ const createCommentItem = ({ avatar, message, name }) => {
   return commentItem;
 };
 
-const clearCommentsList = () => {
-  commentsListElement.innerHTML = '';
-};
-
 const renderComments = (comments) => {
   const commentsListFragment = document.createDocumentFragment();
   comments.forEach((comment) => {
     commentsListFragment.append(createCommentItem(comment));
   });
-  clearCommentsList();
+
+  commentsShownCount += comments.length;
+  commentsShownCountElement.textContent = commentsShownCount;
+
+  if (commentsShownCount >= commentsData.length) {
+    commentsLoaderElement.classList.add('hidden');
+  }
   commentsListElement.append(commentsListFragment);
 };
 
+const showComments = () => {
+  const comments = commentsData.slice(commentsStartIndex, commentsStartIndex + COMMENTS_SHOWN_COUNT);
+  commentsStartIndex += COMMENTS_SHOWN_COUNT;
+  renderComments(comments);
+};
+
 const renderPicture = ({ url, description, comments, likes }) => {
+  commentsData = comments;
   postModalElement.querySelector('.big-picture__img img').src = url;
   postModalElement.querySelector('.social__caption').textContent = description;
   postModalElement.querySelector('.likes-count').textContent = likes;
   postModalElement.querySelector('.comments-count').textContent = comments.length;
-  renderComments(comments);
+  commentsLoaderElement.classList.remove('hidden');
+  commentsListElement.innerHTML = '';
+  showComments();
   openModal(postModalElement);
+};
+
+const resetCommentsCounts = () => {
+  commentsStartIndex = 0;
+  commentsShownCount = 0;
 };
 
 postModalCloseElement.addEventListener('click', () => {
   closeModal();
 });
 
-export { renderPicture };
+commentsLoaderElement.addEventListener('click', showComments);
+
+export { renderPicture, resetCommentsCounts };

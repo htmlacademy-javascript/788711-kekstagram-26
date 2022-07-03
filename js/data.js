@@ -36,7 +36,7 @@ const LikesCount = {
 
 const CommentsCount = {
   MIN: 1,
-  MAX: 5
+  MAX: 25
 };
 
 let commentId = 0;
