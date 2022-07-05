@@ -1,16 +1,13 @@
 import { isEscapeKey } from './util.js';
-import { resetForm } from './upload-form.js';
+import { pristine, resetForm } from './upload-form.js';
+import { resetCommentsCounts } from './post-fullsize-picture.js';
 
 const body = document.body;
-const uploadOverlayElement = document.querySelector('.img-upload__overlay');
 
 let targetElement;
 
 const modalEscKeydownHandler = (evt) => {
   if (isEscapeKey(evt)) {
-    if (!uploadOverlayElement.classList.contains('hidden')) {
-      resetForm();
-    }
     evt.preventDefault();
     closeModal();
   }
@@ -27,6 +24,15 @@ function closeModal() {
   body.classList.remove('modal-open');
   targetElement.classList.add('hidden');
   document.removeEventListener('keydown', modalEscKeydownHandler);
+
+  if (targetElement.classList.contains('img-upload__overlay')) {
+    pristine.reset();
+    resetForm();
+  }
+
+  if (targetElement.classList.contains('big-picture')) {
+    resetCommentsCounts();
+  }
 }
 
 export { openModal, closeModal };

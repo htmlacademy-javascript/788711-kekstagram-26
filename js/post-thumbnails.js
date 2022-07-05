@@ -11,12 +11,12 @@ let postsData = [];
 
 const renderPostThumbnails = (posts) => {
   postsData = posts;
-  posts.forEach((post) => {
+  posts.forEach(({ id, url, comments, likes }) => {
     const pictureElement = pictureTemplate.cloneNode(true);
-    pictureElement.dataset.postId = post.id;
-    pictureElement.querySelector('.picture__img').src = post.url;
-    pictureElement.querySelector('.picture__comments').textContent = post.comments.length;
-    pictureElement.querySelector('.picture__likes').textContent = post.likes;
+    pictureElement.dataset.postId = id;
+    pictureElement.querySelector('.picture__img').src = url;
+    pictureElement.querySelector('.picture__comments').textContent = comments.length;
+    pictureElement.querySelector('.picture__likes').textContent = likes;
     picturesFragment.append(pictureElement);
   });
   picturesContainerElement.append(picturesFragment);
