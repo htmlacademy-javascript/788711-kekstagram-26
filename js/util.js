@@ -6,8 +6,6 @@ const getRandomInt = (min, max) => {
 
 const getRandomArrayElement = (elements) => elements[getRandomInt(0, elements.length - 1)];
 
-const checkStringLength = (text, maxLength) => text.length <= maxLength;
-
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-export { getRandomInt, getRandomArrayElement, checkStringLength, isEscapeKey };
+export { getRandomInt, getRandomArrayElement, isEscapeKey };

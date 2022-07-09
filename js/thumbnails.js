@@ -1,4 +1,4 @@
-import { renderPicture } from './post-fullsize-picture.js';
+import { renderPost } from './fullsize-picture.js';
 
 const picturesContainerElement = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture')
@@ -9,7 +9,7 @@ const picturesFragment = document.createDocumentFragment();
 
 let postsData = [];
 
-const renderPostThumbnails = (posts) => {
+const renderThumbnails = (posts) => {
   postsData = posts;
   posts.forEach(({ id, url, comments, likes }) => {
     const pictureElement = pictureTemplate.cloneNode(true);
@@ -29,9 +29,9 @@ picturesContainerElement.addEventListener('click', (evt) => {
     const postId = thumbnailElement.dataset.postId;
     const post = postsData.find((element) => element.id === Number(postId));
     if (post) {
-      renderPicture(post);
+      renderPost(post);
     }
   }
 });
 
-export { renderPostThumbnails };
+export { renderThumbnails };

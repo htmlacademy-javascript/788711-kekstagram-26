@@ -1,20 +1,19 @@
-import { isEscapeKey } from './util.js';
-import { openModal, closeModal } from './modal-window.js';
+import { openModal, closeModal } from './modal.js';
 
 const HASHTAGS_COUNT = 5;
+const REGULAR_EXPRESSION = /^#[A-Za-zА-ЯаяЁё0-9]{1,19}$/;
 
-const uploadFormElement = document.querySelector('.img-upload__form');
-const fileInputElement = uploadFormElement.querySelector('#upload-file');
-const uploadOverlayElement = uploadFormElement.querySelector('.img-upload__overlay');
-const uploadFormCloseElement = uploadFormElement.querySelector('#upload-cancel');
-const hashtagsInputElement = uploadFormElement.querySelector('.text__hashtags');
-const re = /^#[A-Za-zА-ЯаяЁё0-9]{1,19}$/;
+const formElement = document.querySelector('.img-upload__form');
+const fileInputElement = formElement.querySelector('#upload-file');
+const uploadOverlayElement = formElement.querySelector('.img-upload__overlay');
+const formCloseElement = formElement.querySelector('#upload-cancel');
+const hashtagsInputElement = formElement.querySelector('.text__hashtags');
 
-const resetForm = () => uploadFormElement.reset();
+const resetForm = () => formElement.reset();
 
 const getHashtags = () => hashtagsInputElement.value.split(' ').filter(Boolean);
 
-const checkHashtagSymbols = () => getHashtags().every((item) => re.test(item));
+const checkHashtagSymbols = () => getHashtags().every((item) => REGULAR_EXPRESSION.test(item));
 
 const checkUniquenessHashtags = () => {
   const hashtags = getHashtags().map((item) => item.toLowerCase());
@@ -24,7 +23,7 @@ const checkUniquenessHashtags = () => {
 
 const checkHashtagsCount = () => getHashtags().length <= HASHTAGS_COUNT;
 
-const pristine = new Pristine(uploadFormElement, {
+const pristine = new Pristine(formElement, {
   classTo: 'text__field-wrapper',
   errorClass: 'text__field-wrapper--invalid',
   successClass: 'text__field-wrapper-valid',
@@ -41,24 +40,15 @@ fileInputElement.addEventListener('change', () => {
   openModal(uploadOverlayElement);
 });
 
-uploadFormCloseElement.addEventListener('click', () => {
+formCloseElement.addEventListener('click', () => {
   closeModal();
 });
 
-uploadOverlayElement.addEventListener('keydown', (evt) => {
-  const targetTextFieldElement = evt.target.matches('.text__hashtags') || evt.target.matches('.text__description');
-  if (targetTextFieldElement) {
-    if (isEscapeKey(evt)) {
-      evt.stopPropagation();
-    }
-  }
-});
-
-uploadFormElement.addEventListener('submit', (evt) => {
+formElement.addEventListener('submit', (evt) => {
   evt.preventDefault();
   const isValid = pristine.validate();
   if (isValid) {
-    uploadFormElement.submit();
+    formElement.submit();
   }
 });
 

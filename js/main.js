@@ -1,9 +1,11 @@
 import { generatePosts } from './data.js';
-import { renderPostThumbnails } from './post-thumbnails.js';
-import './upload-form.js';
+import { renderThumbnails } from './thumbnails.js';
+import './form.js';
+import './scale.js';
+import './effect.js';
 
 const getPost = (posts) => {
-  renderPostThumbnails(posts);
+  renderThumbnails(posts);
 };
 
 getPost(generatePosts());

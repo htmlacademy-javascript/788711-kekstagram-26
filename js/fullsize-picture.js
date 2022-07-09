@@ -1,15 +1,14 @@
-import { openModal, closeModal } from './modal-window.js';
+import { openModal, closeModal } from './modal.js';
 
 const AVATAR_WIDTH = 35;
 const AVATAR_HEIGHT = 35;
-
 const COMMENTS_SHOWN_COUNT = 5;
 
-const postModalElement = document.querySelector('.big-picture');
-const postModalCloseElement = postModalElement.querySelector('.big-picture__cancel');
-const commentsShownCountElement = postModalElement.querySelector('.comments-shown-count');
-const commentsListElement = postModalElement.querySelector('.social__comments');
-const commentsLoaderElement = postModalElement.querySelector('.comments-loader');
+const postElement = document.querySelector('.big-picture');
+const postCloseElement = postElement.querySelector('.big-picture__cancel');
+const commentsShownCountElement = postElement.querySelector('.comments-shown-count');
+const commentsListElement = postElement.querySelector('.social__comments');
+const commentsLoaderElement = postElement.querySelector('.comments-loader');
 
 let commentsData = [];
 let commentsStartIndex = 0;
@@ -56,16 +55,16 @@ const showComments = () => {
   renderComments(comments);
 };
 
-const renderPicture = ({ url, description, comments, likes }) => {
+const renderPost = ({ url, description, comments, likes }) => {
   commentsData = comments;
-  postModalElement.querySelector('.big-picture__img img').src = url;
-  postModalElement.querySelector('.social__caption').textContent = description;
-  postModalElement.querySelector('.likes-count').textContent = likes;
-  postModalElement.querySelector('.comments-count').textContent = comments.length;
+  postElement.querySelector('.big-picture__img img').src = url;
+  postElement.querySelector('.social__caption').textContent = description;
+  postElement.querySelector('.likes-count').textContent = likes;
+  postElement.querySelector('.comments-count').textContent = comments.length;
   commentsLoaderElement.classList.remove('hidden');
   commentsListElement.innerHTML = '';
   showComments();
-  openModal(postModalElement);
+  openModal(postElement);
 };
 
 const resetCommentsCounts = () => {
@@ -73,10 +72,10 @@ const resetCommentsCounts = () => {
   commentsShownCount = 0;
 };
 
-postModalCloseElement.addEventListener('click', () => {
+postCloseElement.addEventListener('click', () => {
   closeModal();
 });
 
 commentsLoaderElement.addEventListener('click', showComments);
 
-export { renderPicture, resetCommentsCounts };
+export { renderPost, resetCommentsCounts };
