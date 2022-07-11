@@ -34,7 +34,10 @@ const createCommentItem = ({ avatar, message, name }) => {
   return commentItem;
 };
 
-const renderComments = (comments) => {
+const renderComments = () => {
+  const comments = commentsData.slice(commentsStartIndex, commentsStartIndex + COMMENTS_SHOWN_COUNT);
+  commentsStartIndex += COMMENTS_SHOWN_COUNT;
+
   const commentsListFragment = document.createDocumentFragment();
   comments.forEach((comment) => {
     commentsListFragment.append(createCommentItem(comment));
@@ -49,21 +52,15 @@ const renderComments = (comments) => {
   commentsListElement.append(commentsListFragment);
 };
 
-const showComments = () => {
-  const comments = commentsData.slice(commentsStartIndex, commentsStartIndex + COMMENTS_SHOWN_COUNT);
-  commentsStartIndex += COMMENTS_SHOWN_COUNT;
-  renderComments(comments);
-};
-
 const renderPost = ({ url, description, comments, likes }) => {
-  commentsData = comments;
   postElement.querySelector('.big-picture__img img').src = url;
   postElement.querySelector('.social__caption').textContent = description;
   postElement.querySelector('.likes-count').textContent = likes;
   postElement.querySelector('.comments-count').textContent = comments.length;
   commentsLoaderElement.classList.remove('hidden');
   commentsListElement.innerHTML = '';
-  showComments();
+  commentsData = comments;
+  renderComments();
   openModal(postElement);
 };
 
@@ -72,10 +69,12 @@ const resetCommentsCounts = () => {
   commentsShownCount = 0;
 };
 
+commentsLoaderElement.addEventListener('click', () => {
+  renderComments();
+});
+
 postCloseElement.addEventListener('click', () => {
   closeModal();
 });
-
-commentsLoaderElement.addEventListener('click', showComments);
 
 export { renderPost, resetCommentsCounts };

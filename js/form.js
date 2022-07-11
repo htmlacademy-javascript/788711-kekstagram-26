@@ -1,19 +1,22 @@
+import { sendData } from './api.js';
 import { openModal, closeModal } from './modal.js';
+import { showStatusPopup } from './status-popup.js';
 
 const HASHTAGS_COUNT = 5;
-const REGULAR_EXPRESSION = /^#[A-Za-zА-ЯаяЁё0-9]{1,19}$/;
+const HASHTAG_REGULAR_EXPRESSION = /^#[A-Za-zА-ЯаяЁё0-9]{1,19}$/;
 
 const formElement = document.querySelector('.img-upload__form');
 const fileInputElement = formElement.querySelector('#upload-file');
 const uploadOverlayElement = formElement.querySelector('.img-upload__overlay');
 const formCloseElement = formElement.querySelector('#upload-cancel');
 const hashtagsInputElement = formElement.querySelector('.text__hashtags');
+const formSubmitElement = formElement.querySelector('.img-upload__submit');
 
 const resetForm = () => formElement.reset();
 
 const getHashtags = () => hashtagsInputElement.value.split(' ').filter(Boolean);
 
-const checkHashtagSymbols = () => getHashtags().every((item) => REGULAR_EXPRESSION.test(item));
+const checkHashtagSymbols = () => getHashtags().every((item) => HASHTAG_REGULAR_EXPRESSION.test(item));
 
 const checkUniquenessHashtags = () => {
   const hashtags = getHashtags().map((item) => item.toLowerCase());
@@ -26,7 +29,7 @@ const checkHashtagsCount = () => getHashtags().length <= HASHTAGS_COUNT;
 const pristine = new Pristine(formElement, {
   classTo: 'text__field-wrapper',
   errorClass: 'text__field-wrapper--invalid',
-  successClass: 'text__field-wrapper-valid',
+  successClass: 'text__field-wrapper--valid',
   errorTextParent: 'text__field-wrapper',
   errorTextTag: 'p',
   errorTextClass: 'text__error-message'
@@ -36,20 +39,45 @@ pristine.addValidator(hashtagsInputElement, checkHashtagSymbols, 'Хэш-тег 
 pristine.addValidator(hashtagsInputElement, checkUniquenessHashtags, 'Хэш-теги не должны повторяться. Хэштеги нечувствительны к регистру.', 2, true);
 pristine.addValidator(hashtagsInputElement, checkHashtagsCount, `Можно указать не более ${HASHTAGS_COUNT} хэш-тегов.`, 3, true);
 
-fileInputElement.addEventListener('change', () => {
+const onFileInputChange = () => {
   openModal(uploadOverlayElement);
-});
+};
+
+const blockSubmitButton = () => {
+  formSubmitElement.disabled = true;
+  formSubmitElement.textContent = 'Публикую...';
+};
+
+const unblockSubmitButton = () => {
+  formSubmitElement.disabled = false;
+  formSubmitElement.textContent = 'Опубликовать';
+};
+
+const onFormSubmit = (evt) => {
+  evt.preventDefault();
+  const isValid = pristine.validate();
+  if (isValid) {
+    blockSubmitButton();
+    sendData(
+      () => {
+        closeModal();
+        unblockSubmitButton();
+        showStatusPopup('success');
+      },
+      () => {
+        showStatusPopup('error');
+        unblockSubmitButton();
+      },
+      new FormData(evt.target),
+    );
+  }
+};
 
 formCloseElement.addEventListener('click', () => {
   closeModal();
 });
 
-formElement.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  const isValid = pristine.validate();
-  if (isValid) {
-    formElement.submit();
-  }
-});
+fileInputElement.addEventListener('change', onFileInputChange);
+formElement.addEventListener('submit', onFormSubmit);
 
 export { pristine, resetForm };
