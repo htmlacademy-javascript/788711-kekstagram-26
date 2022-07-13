@@ -6,8 +6,6 @@ const getRandomInt = (min, max) => {
   return Math.floor(Math.random() * (upper - lower + 1)) + lower;
 };
 
-const getRandomArrayElement = (elements) => elements[getRandomInt(0, elements.length - 1)];
-
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
 const showAlert = (message) => {
@@ -26,4 +24,12 @@ const showAlert = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
-export { getRandomInt, getRandomArrayElement, isEscapeKey, showAlert };
+const debounce = (callback, timeoutDelay) => {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+
+export { getRandomInt, isEscapeKey, showAlert, debounce };

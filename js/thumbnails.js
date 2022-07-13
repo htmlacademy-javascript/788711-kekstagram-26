@@ -34,4 +34,10 @@ picturesContainerElement.addEventListener('click', (evt) => {
   }
 });
 
-export { renderThumbnails };
+const clearThumbnails = () => {
+  picturesContainerElement.querySelectorAll('.picture').forEach((thumbnailElement) => {
+    thumbnailElement.remove();
+  });
+};
+
+export { renderThumbnails, clearThumbnails };
