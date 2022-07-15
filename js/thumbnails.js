@@ -10,7 +10,6 @@ const picturesFragment = document.createDocumentFragment();
 let postsData = [];
 
 const renderThumbnails = (posts) => {
-  postsData = posts;
   posts.forEach(({ id, url, comments, likes }) => {
     const pictureElement = pictureTemplate.cloneNode(true);
     pictureElement.dataset.postId = id;
@@ -19,6 +18,7 @@ const renderThumbnails = (posts) => {
     pictureElement.querySelector('.picture__likes').textContent = likes;
     picturesFragment.append(pictureElement);
   });
+  postsData = posts;
   picturesContainerElement.append(picturesFragment);
 };
 

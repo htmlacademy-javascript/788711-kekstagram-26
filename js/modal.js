@@ -14,6 +14,10 @@ const onModalEscKeydown = (evt) => {
       return;
     }
 
+    if (document.querySelector('.error')) {
+      return;
+    }
+
     evt.preventDefault();
     closeModal();
   }
