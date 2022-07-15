@@ -2,7 +2,13 @@ const API_URL = 'https://26.javascript.pages.academy/kekstagram';
 
 const getData = (onSuccess, onError) => {
   fetch(`${API_URL}/data`)
-    .then((response) => response.json())
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+
+      throw new Error(`${response.status} ${response.statusText}`);
+    })
     .then((posts) => {
       onSuccess(posts);
     })
@@ -22,7 +28,7 @@ const sendData = (onSuccess, onError, body) => {
         return;
       }
 
-      onError();
+      throw new Error(`${response.status} ${response.statusText}`);
     })
     .catch(() => {
       onError();

@@ -2,15 +2,25 @@ import { isEscapeKey } from './util.js';
 
 const Z_ORDER = 10;
 
+const body = document.body;
+const successTemplate = document.querySelector('#success')
+  .content
+  .querySelector('.success');
+const errorTemplate = document.querySelector('#error')
+  .content
+  .querySelector('.error');
+
 const showStatusPopup = (type) => {
-  const popupElement = document.querySelector(`#${type}`)
-    .content
-    .querySelector(`.${type}`)
-    .cloneNode(true);
+  const statusConfig = {
+    'success': successTemplate,
+    'error': errorTemplate,
+  };
+
+  const template = statusConfig[type];
+  const popupElement = template.cloneNode(true);
   const closeElement = popupElement.querySelector(`.${type}__button`);
   popupElement.style.zIndex = Z_ORDER;
-
-  document.body.append(popupElement);
+  body.append(popupElement);
 
   const onPopupEscKeydown = (evt) => {
     if (isEscapeKey(evt)) {

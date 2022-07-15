@@ -5,12 +5,16 @@ const AVATAR_HEIGHT = 35;
 const COMMENTS_SHOWN_COUNT = 5;
 
 const postElement = document.querySelector('.big-picture');
-const postCloseElement = postElement.querySelector('.big-picture__cancel');
+const postImageElement = postElement.querySelector('.big-picture__img img');
+const socialCaptionElement = postElement.querySelector('.social__caption');
+const likesCountElement = postElement.querySelector('.likes-count');
 const commentsShownCountElement = postElement.querySelector('.comments-shown-count');
+const commentsCountElement = postElement.querySelector('.comments-count');
 const commentsListElement = postElement.querySelector('.social__comments');
 const commentsLoaderElement = postElement.querySelector('.comments-loader');
+const postCloseElement = postElement.querySelector('.big-picture__cancel');
 
-let commentsData = [];
+let userComments = [];
 let commentsStartIndex = 0;
 let commentsShownCount = 0;
 
@@ -35,7 +39,7 @@ const createCommentItem = ({ avatar, message, name }) => {
 };
 
 const renderComments = () => {
-  const comments = commentsData.slice(commentsStartIndex, commentsStartIndex + COMMENTS_SHOWN_COUNT);
+  const comments = userComments.slice(commentsStartIndex, commentsStartIndex + COMMENTS_SHOWN_COUNT);
   commentsStartIndex += COMMENTS_SHOWN_COUNT;
 
   const commentsListFragment = document.createDocumentFragment();
@@ -46,20 +50,20 @@ const renderComments = () => {
   commentsShownCount += comments.length;
   commentsShownCountElement.textContent = commentsShownCount;
 
-  if (commentsShownCount >= commentsData.length) {
+  if (commentsShownCount >= userComments.length) {
     commentsLoaderElement.classList.add('hidden');
   }
   commentsListElement.append(commentsListFragment);
 };
 
 const renderPost = ({ url, description, comments, likes }) => {
-  postElement.querySelector('.big-picture__img img').src = url;
-  postElement.querySelector('.social__caption').textContent = description;
-  postElement.querySelector('.likes-count').textContent = likes;
-  postElement.querySelector('.comments-count').textContent = comments.length;
+  postImageElement.src = url;
+  socialCaptionElement.textContent = description;
+  likesCountElement.textContent = likes;
+  commentsCountElement.textContent = comments.length;
   commentsLoaderElement.classList.remove('hidden');
   commentsListElement.innerHTML = '';
-  commentsData = comments;
+  userComments = comments;
   renderComments();
   openModal(postElement);
 };
