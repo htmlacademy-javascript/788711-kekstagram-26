@@ -8,14 +8,14 @@ const ACTIVE_FILTER_CLASS = 'img-filters__button--active';
 const filtersContainerElement = document.querySelector('.img-filters');
 
 const getRandomPosts = (posts) => {
-  const postData = [];
+  const userPosts = [];
   let randomPost;
   for (let i = 0; i < RANDOM_POSTS_COUNT; i++) {
     randomPost = Math.floor(Math.random() * ((posts.length - 1) + 1));
-    postData.push(posts[randomPost]);
+    userPosts.push(posts[randomPost]);
     posts.splice(randomPost, 1);
   }
-  return postData;
+  return userPosts;
 };
 
 const getDiscussedPosts = (posts) => posts.sort((currentPost, nextPost) => nextPost.comments.length - currentPost.comments.length);
@@ -38,6 +38,7 @@ const onFiltersClick = (posts, callback) => {
     if (!evt.target.matches('.img-filters__button') || evt.target.classList.contains(`.${ACTIVE_FILTER_CLASS}`)) {
       return;
     }
+
     getActiveFilter().classList.remove(`${ACTIVE_FILTER_CLASS}`);
     evt.target.classList.add(`${ACTIVE_FILTER_CLASS}`);
     sortPosts(posts, callback);
@@ -58,7 +59,8 @@ const renderPosts = (posts) => {
         renderThumbnails(sortedPost);
       },
       RERENDER_DELAY,
-    ));
+    )
+  );
 };
 
 export { renderPosts };

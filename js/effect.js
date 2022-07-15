@@ -112,6 +112,7 @@ const onSliderUpdate = () => {
   if (isDefaultEffect()) {
     return;
   }
+
   const sliderValue = sliderElement.noUiSlider.get();
   effectValueElement.value = sliderValue;
   imageElement.style.filter = `${selectedEffect.filter}(${sliderValue}${selectedEffect.unit})`;
