@@ -59,7 +59,6 @@ const renderPosts = (posts) => {
       },
       RERENDER_DELAY,
     ));
-
 };
 
 export { renderPosts };
