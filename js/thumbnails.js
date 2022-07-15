@@ -7,7 +7,7 @@ const pictureTemplate = document.querySelector('#picture')
 
 const picturesFragment = document.createDocumentFragment();
 
-let postsData = [];
+let userPosts = [];
 
 const renderThumbnails = (posts) => {
   posts.forEach(({ id, url, comments, likes }) => {
@@ -18,7 +18,7 @@ const renderThumbnails = (posts) => {
     pictureElement.querySelector('.picture__likes').textContent = likes;
     picturesFragment.append(pictureElement);
   });
-  postsData = posts;
+  userPosts = posts;
   picturesContainerElement.append(picturesFragment);
 };
 
@@ -27,7 +27,7 @@ picturesContainerElement.addEventListener('click', (evt) => {
   if (thumbnailElement) {
     evt.preventDefault();
     const postId = thumbnailElement.dataset.postId;
-    const post = postsData.find((element) => element.id === Number(postId));
+    const post = userPosts.find((element) => element.id === Number(postId));
     if (post) {
       renderPost(post);
     }

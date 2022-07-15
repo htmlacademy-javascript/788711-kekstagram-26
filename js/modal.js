@@ -4,34 +4,17 @@ import { pristine, resetForm } from './form.js';
 import { resetImageScale } from './scale.js';
 import { resetEffect } from './effect.js';
 
-const body = document.body;
-
 let targetElement;
-
-const onModalEscKeydown = (evt) => {
-  if (isEscapeKey(evt)) {
-    if (evt.target.matches('.text__hashtags') || evt.target.matches('.text__description')) {
-      return;
-    }
-
-    if (document.querySelector('.error')) {
-      return;
-    }
-
-    evt.preventDefault();
-    closeModal();
-  }
-};
 
 const openModal = (item) => {
   targetElement = item;
-  body.classList.add('modal-open');
+  document.body.classList.add('modal-open');
   targetElement.classList.remove('hidden');
   document.addEventListener('keydown', onModalEscKeydown);
 };
 
-function closeModal() {
-  body.classList.remove('modal-open');
+const closeModal = () => {
+  document.body.classList.remove('modal-open');
   targetElement.classList.add('hidden');
   document.removeEventListener('keydown', onModalEscKeydown);
 
@@ -44,6 +27,21 @@ function closeModal() {
 
   if (targetElement.classList.contains('big-picture')) {
     resetCommentsCounts();
+  }
+};
+
+function onModalEscKeydown(evt) {
+  if (isEscapeKey(evt)) {
+    if (evt.target.matches('.text__hashtags') || evt.target.matches('.text__description')) {
+      return;
+    }
+
+    if (document.querySelector('.error')) {
+      return;
+    }
+
+    evt.preventDefault();
+    closeModal();
   }
 }
 

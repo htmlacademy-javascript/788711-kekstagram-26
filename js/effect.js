@@ -58,7 +58,7 @@ const sliderElement = formElement.querySelector('.effect-level__slider');
 
 let selectedEffect = DEFAULT_EFFECT;
 
-const isDefault = () => selectedEffect === DEFAULT_EFFECT;
+const isDefaultEffect = () => selectedEffect === DEFAULT_EFFECT;
 
 const updateEffect = () => {
   sliderElement.noUiSlider.updateOptions({
@@ -72,7 +72,7 @@ const updateEffect = () => {
 
   imageElement.className = '';
   sliderElement.classList.remove('hidden');
-  if (isDefault()) {
+  if (isDefaultEffect()) {
     sliderElement.classList.add('hidden');
     return;
   }
@@ -93,15 +93,8 @@ noUiSlider.create(sliderElement, {
   step: DEFAULT_EFFECT.step,
   connect: 'lower',
   format: {
-    to: function (value) {
-      if (Number.isInteger(value)) {
-        return value.toFixed(0);
-      }
-      return value.toFixed(1);
-    },
-    from: function (value) {
-      return parseFloat(value);
-    },
+    to: (value) => Number.isInteger(value) ? value.toFixed(0) : value.toFixed(1),
+    from: (value) => parseFloat(value),
   },
 });
 
@@ -116,7 +109,7 @@ const onFormChange = (evt) => {
 
 const onSliderUpdate = () => {
   imageElement.style.filter = 'none';
-  if (isDefault()) {
+  if (isDefaultEffect()) {
     return;
   }
   const sliderValue = sliderElement.noUiSlider.get();
