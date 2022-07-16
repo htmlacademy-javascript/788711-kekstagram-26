@@ -6,8 +6,8 @@ import { resetEffect } from './effect.js';
 
 let targetElement;
 
-const openModal = (item) => {
-  targetElement = item;
+const openModal = (element) => {
+  targetElement = element;
   document.body.classList.add('modal-open');
   targetElement.classList.remove('hidden');
   document.addEventListener('keydown', onModalEscKeydown);

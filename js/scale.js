@@ -1,6 +1,6 @@
 const DIVISOR = 100;
 
-const scaleProperty = {
+const ScaleProperty = {
   MIN: 25,
   MAX: 100,
   STEP: 25,
@@ -12,7 +12,7 @@ const imageElement = formElement.querySelector('.img-upload__preview img');
 const scaleElement = formElement.querySelector('.scale');
 const scaleValueElement = formElement.querySelector('.scale__control--value');
 
-let scaleValue = scaleProperty.DEFAULT;
+let scaleValue = ScaleProperty.DEFAULT;
 
 const setImageScale = (value) => {
   scaleValueElement.value = `${value}%`;
@@ -20,18 +20,18 @@ const setImageScale = (value) => {
 };
 
 const resetImageScale = () => {
-  scaleValue = scaleProperty.DEFAULT;
+  scaleValue = ScaleProperty.DEFAULT;
   setImageScale(scaleValue);
 };
 
 const onScaleClick = (evt) => {
-  if (evt.target.matches('.scale__control--smaller') && scaleValue > scaleProperty.MIN) {
-    scaleValue -= scaleProperty.STEP;
+  if (evt.target.matches('.scale__control--smaller') && scaleValue > ScaleProperty.MIN) {
+    scaleValue -= ScaleProperty.STEP;
     return setImageScale(scaleValue);
   }
 
-  if (evt.target.matches('.scale__control--bigger') && scaleValue < scaleProperty.MAX) {
-    scaleValue += scaleProperty.STEP;
+  if (evt.target.matches('.scale__control--bigger') && scaleValue < ScaleProperty.MAX) {
+    scaleValue += ScaleProperty.STEP;
     return setImageScale(scaleValue);
   }
 };

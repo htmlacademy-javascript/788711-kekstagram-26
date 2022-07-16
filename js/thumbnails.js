@@ -5,11 +5,11 @@ const pictureTemplate = document.querySelector('#picture')
   .content
   .querySelector('.picture');
 
-const picturesFragment = document.createDocumentFragment();
-
 let userPosts = [];
 
 const renderThumbnails = (posts) => {
+  const picturesFragment = document.createDocumentFragment();
+
   posts.forEach(({ id, url, comments, likes }) => {
     const pictureElement = pictureTemplate.cloneNode(true);
     pictureElement.dataset.postId = id;
@@ -18,16 +18,19 @@ const renderThumbnails = (posts) => {
     pictureElement.querySelector('.picture__likes').textContent = likes;
     picturesFragment.append(pictureElement);
   });
+
   userPosts = posts;
   picturesContainerElement.append(picturesFragment);
 };
 
 picturesContainerElement.addEventListener('click', (evt) => {
   const thumbnailElement = evt.target.closest('.picture');
+
   if (thumbnailElement) {
     evt.preventDefault();
     const postId = thumbnailElement.dataset.postId;
     const post = userPosts.find((element) => element.id === Number(postId));
+
     if (post) {
       renderPost(post);
     }
